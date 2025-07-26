@@ -132,13 +132,9 @@ def create_plotly_rose(bloom_factor=1.0, view_angle=45):
     )
 
     return fig
-GIF_PATH = os.path.join(os.path.dirname(__file__), 'rose.gif')
 
-def load_gif_b64(path):
-    with open(path, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode('utf-8')
-
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/AtharvVatsal/Rose-For-Yatakshi/main"
+GITHUB_GIF_URL = f"{GITHUB_RAW_BASE}/rose.gif"
 
 # Main Streamlit App
 def main():
@@ -235,72 +231,14 @@ def main():
         st.sidebar.metric("Smoothness", "🚀 Ultra Smooth!")
         
     else:  # Animated GIF mode
-        st.sidebar.markdown("### 🎬 GIF Animation Settings")
-        
-        # GIF file uploader
-        gif_file = st.sidebar.file_uploader(
-            "📁 Upload Your Rose GIF",
-            type=['gif'],
-            help="Upload the animated rose GIF you've created"
-        )
-        
-        # GIF display options
-        gif_size = st.sidebar.selectbox(
-            "📏 GIF Display Size",
-            options=["Small", "Medium", "Large", "Full Width"],
-            index=2,
-            help="Choose how large to display the GIF"
-        )
-        
-        # GIF info section
-        st.sidebar.markdown("### 📊 GIF Info")
-        if gif_file:
-            st.sidebar.metric("File Name", gif_file.name)
-            st.sidebar.metric("File Size", f"{len(gif_file.getvalue()) / 1024:.1f} KB")
-        else:
-            st.sidebar.info("Upload a GIF to see file details")
-        
-        # Main display area for GIF
-        st.markdown("### 🌹 Animated Rose GIF")
-        
-        if gif_file is not None:
-            # Display the uploaded GIF
-            if gif_size == "Small":
-                width_style = "width: 300px;"
-            elif gif_size == "Medium":
-                width_style = "width: 500px;"
-            elif gif_size == "Large":
-                width_style = "width: 700px;"
-            else:  # Full Width
-                width_style = "width: 100%;"
-            
-            # Create a centered container for the GIF
-            st.markdown(f"""
-            <div class="gif-container">
-                <img src="data:image/gif;base64,{st.base64.b64encode(gif_file.getvalue()).decode()}" 
-                     style="{width_style} max-width: 100%; height: auto;">
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # GIF controls info
-            st.markdown("""
-            ### 🎮 GIF Controls:
-            - **Size**: Adjust the display size using the sidebar
-            - **Quality**: The GIF plays at its original quality and frame rate
-            - **Loop**: The animation will loop continuously
-            - **Mobile Friendly**: Automatically scales on mobile devices
-            """)
-            
-        else:
-            st.markdown("### 🌹 Animated Rose GIF")
-            # Load and display the GIF from local library
-            gif_b64 = load_gif_b64(GIF_PATH)
-            st.markdown(f"""
-            <div class="gif-container">
-            <img src="data:image/gif;base64,{gif_b64}" alt="Rose GIF">
-            </div>
-            """, unsafe_allow_html=True)
-
+         st.markdown("### 🌹 Animated Rose GIF")
+        # Display the GIF directly from GitHub
+         st.markdown(f"""
+        <div class="gif-container">
+            <img src="{GITHUB_GIF_URL}" alt="Rose GIF">
+        </div>
+        """, unsafe_allow_html=True)
+    
     # Romantic quote (common for both modes)
     quotes = [
         "Like a rose in full bloom, you bring beauty and joy to my world",
